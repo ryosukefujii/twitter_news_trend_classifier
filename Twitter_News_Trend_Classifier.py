@@ -1,14 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
-get_ipython().system('pip install mecab-python3')
-get_ipython().system('pip install oseti')
-get_ipython().system('pip install emoji')
-get_ipython().system('pip install tensorflow_text')
-
 
 # In[ ]:
 
