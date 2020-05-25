@@ -3,10 +3,10 @@
 ## 【このnotebookについて】
 
 
-## 【ゴール】
+### 【ゴール】
 + リアルタイムにTwitterトレンド50件をそれぞれがニュース由来のトレンドかどうか判定する。
 
-## 【モデルの仕組み】
+### 【モデルの仕組み】
 1. TwitterAPIを使ってトレンドツイートとニュースアカウントのツイートを取得  
  + 各ツイートはそれぞれ数十件を一つのテキストにまとめる。
 1. データセットの前処理
@@ -17,13 +17,13 @@
  + 閾値を設定し、判定する。
 <br/>
 
-## 【結果】
+### 【結果】
 + 結果精度は７割程度となった。
 
-## 【その他試みたこと】
+### 【その他試みたこと】
 
 
-## 【利用するには】
+### 【利用するには】
 + config.py ファイルにツイッターAPIトークンを記入
 
 - consumer_key = 'XXXXXXXXXX' <br>
@@ -31,7 +31,7 @@
 - access_token = 'XXXXXXXXXX'<br>
 - access_token_secret = 'XXXXXXXXXX'<br>
 
-## 【Requirement】
+### 【Requirement】
 必要なツール、ライブラリ
 + $ pip install mecab-python3
 + $ pip install oseti
