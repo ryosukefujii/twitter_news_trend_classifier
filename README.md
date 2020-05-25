@@ -27,16 +27,18 @@
 + config.py ファイルにツイッターAPIトークンを記入
 
 ```
-- consumer_key = 'XXXXXXXXXX'
-- consumer_secret = 'XXXXXXXXXX'
-- access_token = 'XXXXXXXXXX'
-- access_token_secret = 'XXXXXXXXXX'
+consumer_key = 'XXXXXXXXXX'
+consumer_secret = 'XXXXXXXXXX'
+access_token = 'XXXXXXXXXX'
+access_token_secret = 'XXXXXXXXXX'
 ```
 
 ### 【Requirement】
 必要なツール、ライブラリ
-+ $ pip install mecab-python3
-+ $ pip install oseti
-+ $ pip install emoji
-+ $ pip install tensorflow_text
-+ $ pip install requests_oauthlib
+```
+$ pip install mecab-python3
+$ pip install oseti
+$ pip install emoji
+$ pip install tensorflow_text
+$ pip install requests_oauthlib
+```
