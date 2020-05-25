@@ -2,9 +2,6 @@
 # coding: utf-8
 
 
-# In[ ]:
-
-
 import config # ツイッターAPIトークン取得
 import tweepy
 import datetime
@@ -22,9 +19,6 @@ import gensim
 from gensim.models import KeyedVectors
 
 
-# In[ ]:
-
-
 consumer_key = config.consumer_key
 consumer_secret = config.consumer_secret
 access_token = config.access_token
@@ -36,8 +30,6 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit = True) # 利用禁止期間の解除を待機後に実行する
 
 
-# In[ ]:
-
 
 now = datetime.datetime.now() + datetime.timedelta(hours=9)
 week_ago = now - datetime.timedelta(days=7)
@@ -46,8 +38,6 @@ now, week_ago = now.strftime('%Y-%m-%d_%H:%M:%S_JST'), week_ago.strftime('%Y-%m-
 # # オリジナル関数
 
 # ## 時間設定
-
-# In[ ]:
 
 
 # 現在の時刻を取得
@@ -77,9 +67,6 @@ get_until_and_since(7) # 検索期間の設定
 
 # ### トレンドリスト取得
 
-# In[ ]:
-
-
 def get_trends(n_trends=50, id=23424856):
   trends = api.trends_place(id=id) # id = 23424856 # The Yahoo! Where On Earth ID
   text = None
@@ -88,15 +75,8 @@ def get_trends(n_trends=50, id=23424856):
     trend_list.append(trend["name"])
   return trend_list[:n_trends]
 
-trend_list = get_trends(n_trends=50, id=23424856)
-for i, trend in enumerate(trend_list):
-  print(i, trend)
-
 
 # ### ハッシュタグ取得
-
-# In[ ]:
-
 
 # def get_hashtags():
 #   # hashtag_list
@@ -119,9 +99,6 @@ for i, trend in enumerate(trend_list):
 
 # ### URL除去
 
-# In[ ]:
-
-
 # 絵文字除去
 def remove_emoji(text):
   return ''.join(['' if c in emoji.UNICODE_EMOJI else c for c in text])
@@ -143,10 +120,6 @@ def remove_mention_and_hashtag(text):
   return result
 
 # ### 分かち書き
-
-# In[ ]:
-
-
 def wakati_gaki(text):
   mecab = MeCab.Tagger ("-Owakati")
   return mecab.parse(text)
@@ -155,8 +128,6 @@ def wakati_gaki(text):
 # # トレンドテキスト前処理
 
 # ### テキスト前処理
-
-# In[ ]:
 
 
 # ツイートテキスト整形
@@ -174,19 +145,13 @@ def get_text_from_tweets(q, items=50):
   text = preprocess_text(text)
   return text
 
-print(get_text_from_tweets(q=trend_list[0], items=1))
-
 
 # ### 最新ニュースツイート取得
-
-# In[ ]:
-
-
-def check_news_tweet(news_media):
+def check_news_tweet(news_media, news_cnt):
   url = "https://api.twitter.com/1.1/statuses/user_timeline.json" #タイムライン取得エンドポイント
   until, since = get_until_and_since(days=0, hours=12, minutes=0)
   for media in news_media:
-    params ={'count' : 40, 'id' : media, 'since':since} #取得数
+    params ={'count' : news_cnt, 'id' : media, 'since':since} #取得数
     res = twitter.get(url, params=params)
     timelines = json.loads(res.text)
     text = ''
@@ -197,15 +162,9 @@ def check_news_tweet(news_media):
   return text
 
 news_media = ['Sankei_news', 'HuffPostJapan', 'mainichijpnews']
-news_text = check_news_tweet(news_media)
-news_text
 
 
 # # 類似度比較
-
-# In[ ]:
-
-
 def check_sim(text1, text2):
   import tensorflow_hub as hub
   import numpy as np
@@ -223,55 +182,69 @@ def check_sim(text1, text2):
   vectors = embed(texts)
   return cos_sim(vectors[0], vectors[1])
 
+def judge_trend(result, threshold):
+  if result > threshold:
+    return 'Positive'
+  else:
+    return 'Negative'
+# パラメータ
+n_trends = 10
+n_tweets = 30
+news_cnt = 40
+threshold = 0.3 # 判定閾値
 
-# In[ ]:
+print('----- 設定 -----')
+print('自動 → Press [0] or Any')
+print('手動 → Press [1]')
 
+try:
+  setting = int(input())
+except ValueError:
+  setting = 0
 
-trend_list = get_trends(n_trends=50, id=23424856) # トレンドリスト取得
-news_text = check_news_tweet(news_media) # ニュースメディアからツイート取得
-for q in trend_list:
-  tweet_text = get_text_from_tweets(q, items=30) # 各トレンドのツイートをitems数取得して結合
+if setting == 1:
+  print('取得するトレンド件数は？(デフォルト：10件)')
+  n_trends = int(input())
+  print('トレンドから取得するツイート件数は？(デフォルト：' + str(n_tweets) +'件)')
+  n_tweets = int(input())
+  print('メディアから取得するツイート件数は？(デフォルト：' + str(news_cnt) +'件)')
+  news_t_cnt = int(input())
+  print('判定する際の類似度の閾値は？(デフォルト' + str(threshold) + ')')
+  threshold = float(input()) # 判定閾値
+else:
+  pass
+
+print()
+print('----- 設定内容 -----')
+print('取得するトレンド件数', n_trends, '件')
+print('トレンドから取得するツイート件数：', n_tweets, '件')
+print('ニュースメディア：', news_media)
+print('メディアから取得するツイート件数：', news_cnt, '件')
+print('閾値：', threshold)
+print('-----------------------')
+
+# print('----- 判定開始 -----')
+trend_list = get_trends(n_trends=n_trends, id=23424856) # トレンドリスト取得
+news_text = check_news_tweet(news_media, news_cnt) # ニュースメディアからツイート取得
+for i, q in enumerate(trend_list):
+  tweet_text = get_text_from_tweets(q, items=n_tweets) # 各トレンドのツイートをitems数取得して結合
   result = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
-
-  print(q, result)
-
-
-# In[ ]:
+  print(i, q, result, judge_trend(result, threshold))
 
 
-# q = trend_list[0]
-# news_text = '検察庁法改正案に反対'
-# tweet_text = '法案を削除'
-# # tweet_text = get_text_from_tweets(q, items=30)
-# check_sim(tweet_text, news_text)
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
+print('----- 判定開始 -----')
 data_list = ['key word', 'sim', 'pred', 'label', 'result']
 df = pd.DataFrame(columns=data_list)
-trend_list = get_trends(n_trends=50, id=23424856) # トレンドリスト取得
-news_text = check_news_tweet(news_media) # ニュースメディアからツイート取得
+trend_list = get_trends(n_trends=n_trends, id=23424856) # トレンドリスト取得
+news_text = check_news_tweet(news_media, news_cnt) # ニュースメディアからツイート取得
 for i, q in enumerate(trend_list):
-  tweet_text = get_text_from_tweets(q, items=30) # 各トレンドのツイートをitems数取得して結合
+  tweet_text = get_text_from_tweets(q, items=n_tweets) # 各トレンドのツイートをitems数取得して結合
   result = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
-  pred = np.where(result > 0.3, 1, 0)
+  pred = np.where(result > threshold, 1, 0)
   print(q)
   label = int(input())
-  df.loc[i] = q, result, pred, label, int(pred==label)
-
-
-# In[ ]:
+  df.loc[i] = i, q, result, pred, label, int(pred==label)
 
 
 print((df.result == 1).sum()/df.shape[0], '%')
 display(df)
-
-
-# In[ ]:
