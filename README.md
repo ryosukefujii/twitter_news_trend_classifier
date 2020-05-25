@@ -1,7 +1,7 @@
-# コサイン類似度によるTwitterトレンドがニュース由来かどうか予測
+# Twitterトレンドがニュース由来かどうかを予測
 
 ## 【このnotebookについて】
-
++ コサイン類似度によるTwitterトレンドがニュース由来かどうか予測する。
 
 ### 【ゴール】
 + リアルタイムにTwitterトレンド50件をそれぞれがニュース由来のトレンドかどうか判定する。
@@ -26,10 +26,12 @@
 ### 【利用するには】
 + config.py ファイルにツイッターAPIトークンを記入
 
-- consumer_key = 'XXXXXXXXXX' <br>
-- consumer_secret = 'XXXXXXXXXX' <br>
-- access_token = 'XXXXXXXXXX'<br>
-- access_token_secret = 'XXXXXXXXXX'<br>
+```
+- consumer_key = 'XXXXXXXXXX'
+- consumer_secret = 'XXXXXXXXXX'
+- access_token = 'XXXXXXXXXX'
+- access_token_secret = 'XXXXXXXXXX'
+```
 
 ### 【Requirement】
 必要なツール、ライブラリ

@@ -7,10 +7,12 @@ import tweepy
 import datetime
 import numpy as np
 import pandas as pd
-import json
-from requests_oauthlib import OAuth1Session
 pd.set_option("display.max_columns", 100)
 pd.set_option('display.max_rows', 5000)
+pd.set_option('display.unicode.east_asian_width', True)
+from IPython.display import display
+import json
+from requests_oauthlib import OAuth1Session
 import re
 import MeCab
 import oseti
@@ -216,7 +218,7 @@ else:
 
 print()
 print('----- 設定内容 -----')
-print('取得するトレンド件数', n_trends, '件')
+print('取得するトレンド件数：', n_trends, '件')
 print('トレンドから取得するツイート件数：', n_tweets, '件')
 print('ニュースメディア：', news_media)
 print('メディアから取得するツイート件数：', news_cnt, '件')
@@ -224,27 +226,31 @@ print('閾値：', threshold)
 print('-----------------------')
 
 # print('----- 判定開始 -----')
-trend_list = get_trends(n_trends=n_trends, id=23424856) # トレンドリスト取得
-news_text = check_news_tweet(news_media, news_cnt) # ニュースメディアからツイート取得
-for i, q in enumerate(trend_list):
-  tweet_text = get_text_from_tweets(q, items=n_tweets) # 各トレンドのツイートをitems数取得して結合
-  result = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
-  print(i, q, result, judge_trend(result, threshold))
-
-
-print('----- 判定開始 -----')
-data_list = ['key word', 'sim', 'pred', 'label', 'result']
+data_list = ['key word', 'sim', 'pred']
 df = pd.DataFrame(columns=data_list)
 trend_list = get_trends(n_trends=n_trends, id=23424856) # トレンドリスト取得
 news_text = check_news_tweet(news_media, news_cnt) # ニュースメディアからツイート取得
 for i, q in enumerate(trend_list):
   tweet_text = get_text_from_tweets(q, items=n_tweets) # 各トレンドのツイートをitems数取得して結合
-  result = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
-  pred = np.where(result > threshold, 1, 0)
-  print(q)
-  label = int(input())
-  df.loc[i] = i, q, result, pred, label, int(pred==label)
+  sim = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
+  judge = judge_trend(sim, threshold)
+  df.loc[i] = q, sim, judge
+  print(i, q, sim, judge)
 
 
-print((df.result == 1).sum()/df.shape[0], '%')
-display(df)
+# print('----- 判定開始 -----')
+# data_list = ['key word', 'sim', 'pred', 'label', 'result']
+# df = pd.DataFrame(columns=data_list)
+# trend_list = get_trends(n_trends=n_trends, id=23424856) # トレンドリスト取得
+# news_text = check_news_tweet(news_media, news_cnt) # ニュースメディアからツイート取得
+# for i, q in enumerate(trend_list):
+#   tweet_text = get_text_from_tweets(q, items=n_tweets) # 各トレンドのツイートをitems数取得して結合
+#   result = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
+#   pred = np.where(result > threshold, 1, 0)
+#   print(q)
+#   label = int(input())
+#   df.loc[i] = i, q, result, pred, label, int(pred==label)
+
+
+# print((df.result == 1).sum()/df.shape[0], '%')
+# display(df)
