@@ -30,7 +30,7 @@ def check_sim(text1, text2):
       return np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
 
   embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder-multilingual/3")
-  texts = [tweet_text, news_text]
+  texts = [text1, text2]
   vectors = embed(texts)
   return cos_sim(vectors[0], vectors[1])
 
