@@ -14,5 +14,9 @@ def check_top_news(q):
     soup = BeautifulSoup(resp.text, "html.parser")
     title_text = soup.get_text()
     item = soup.select('.e2BEnf.U7izfe > h3') # Top stories = トップニュース
-    result = 'Top stories' in item[0]
+    try:
+        result = 'Top stories' in item[0]
+    except IndexError:
+        item = 'None'
+        result = 'Top stories' in item[0]
     return result
