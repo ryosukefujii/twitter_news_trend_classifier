@@ -1,7 +1,24 @@
 import requests
 from bs4 import BeautifulSoup
 
-def check_top_news(q):
+
+def check_links(q):
+    # 参照ニュースサイトリスト
+    news_sites = [
+                    'headlines.yahoo.co.jp', # Yahooニュースヘッドライン
+                    'news.yahoo.co.jp', # Yahooニュース
+                    'news.livedoor.com', # livedoorニュース
+                    'jiji.com', # 時事通信社
+                    'nhk.or.jp', # NHK
+                    'news.tbs.co.jp', # TBS
+                    'news24.jp', # 日本テレビ
+                    'newsweekjapan.jp', # News Week Japan
+                    'asahi.com', # 朝日新聞
+                    'mainichi.jp', # 毎日新聞
+                    'nikkei.com', # 日経新聞
+                    'chunichi.co.jp' # 中日新聞
+                   ]
+
     # google search
     url = "https://www.google.co.jp/search"
     params = {"q": q}
@@ -12,11 +29,23 @@ def check_top_news(q):
     resp = requests.get(url, params=params, headers=headers)
     # 要素の抽出
     soup = BeautifulSoup(resp.text, "html.parser")
-    title_text = soup.get_text()
-    item = soup.select('.e2BEnf.U7izfe > h3') # Top stories = トップニュース
-    try:
-        result = 'Top stories' in item[0]
-    except IndexError:
-        item = 'None'
-        result = 'Top stories' in item[0]
+    items = soup.select('.r > a') # class=r, <a>タグ
+    links = []
+    for item in items:
+      links.append(item.get('href'))
+    return links
+
+
+# グーグル検索の１ページ目のURLを抽出し、時事ニュース関連かどうか判定する
+def check_top_news(links):
+    result_list = []
+    for link in links:
+      cnt = 0
+      for news_site in news_sites:
+        cnt += link.count(news_site)
+      result_list.append(cnt)
+    if sum(result_list) > 0:
+      result = 'Top News'
+    else:
+      result = ''
     return result
