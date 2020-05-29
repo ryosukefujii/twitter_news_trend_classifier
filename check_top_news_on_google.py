@@ -1,24 +1,22 @@
 import requests
 from bs4 import BeautifulSoup
 
-
+# 参照ニュースサイトリスト
+news_sites = [
+                #'headlines.yahoo.co.jp', # Yahooニュースヘッドライン
+                'news.yahoo.co.jp', # Yahooニュース
+                'news.livedoor.com', # livedoorニュース
+                'jiji.com', # 時事通信社
+                'nhk.or.jp', # NHK
+                'news.tbs.co.jp', # TBS
+                'news24.jp', # 日本テレビ
+                'newsweekjapan.jp', # News Week Japan
+                'asahi.com', # 朝日新聞
+                'mainichi.jp', # 毎日新聞
+                'nikkei.com', # 日経新聞
+                'chunichi.co.jp' # 中日新聞
+               ]
 def check_links(q):
-    # 参照ニュースサイトリスト
-    news_sites = [
-                    'headlines.yahoo.co.jp', # Yahooニュースヘッドライン
-                    'news.yahoo.co.jp', # Yahooニュース
-                    'news.livedoor.com', # livedoorニュース
-                    'jiji.com', # 時事通信社
-                    'nhk.or.jp', # NHK
-                    'news.tbs.co.jp', # TBS
-                    'news24.jp', # 日本テレビ
-                    'newsweekjapan.jp', # News Week Japan
-                    'asahi.com', # 朝日新聞
-                    'mainichi.jp', # 毎日新聞
-                    'nikkei.com', # 日経新聞
-                    'chunichi.co.jp' # 中日新聞
-                   ]
-
     # google search
     url = "https://www.google.co.jp/search"
     params = {"q": q}
