@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-
+import get_tweet
 from get_tweet import GetTweetFromTrend
 from get_tweet import GetTweetFromNews
 import check_top_news_on_google as ggl
@@ -12,9 +12,6 @@ import check_top_news_on_google as ggl
 # from IPython.display import display
 # import json
 # from gensim.models import KeyedVectors
-
-
-news_media = ['Sankei_news', 'HuffPostJapan', 'mainichijpnews']
 
 
 # # 類似度比較
@@ -71,7 +68,7 @@ print()
 print('----- 設定内容 -----')
 print('取得するトレンド件数：', n_trends, '件')
 print('トレンドから取得するツイート件数：', n_tweets, '件')
-print('ニュースメディア：', news_media)
+print('ニュースメディア：', get_tweet.news_media)
 print('メディアから取得するツイート件数：', n_news_tweet, '件')
 print('閾値：', threshold)
 print('-----------------------')
@@ -90,7 +87,7 @@ print('-----------------------')
 trend_tweets = GetTweetFromTrend(n_trends)
 trends = trend_tweets.get_trends()
 trend_text_list = trend_tweets.get_text_list(n_tweets)
-news_tweets = GetTweetFromNews(news_media, n_news_tweet)
+news_tweets = GetTweetFromNews(n_news_tweet)
 news_text = news_tweets.get_text_list()
 
 for i , (trend, tweet) in enumerate(zip(trends, trend_text_list)):
