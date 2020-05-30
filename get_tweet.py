@@ -53,17 +53,27 @@ class GetTweetFromTrend:
             trend_text_list.append(text)
         return trend_text_list
 
+
+# Twitterニュースメディアアカウントのリスト
+news_media = [
+                'Sankei_news',
+                'HuffPostJapan',
+                'mainichijpnews',
+                'nhk_news',
+                ]
+
+
+# Twitterニュースメディアアカウントのからツイートを集め1つのテキストにする
 class GetTweetFromNews:
-    def __init__(self, news_media, n_news_tweet=30):
-        self.news_media = news_media
+    def __init__(self, n_news_tweet=30):
         self.n_news_tweet = n_news_tweet
 
 # 最新ニュースツイート取得
     def get_text_list(self):
         url = "https://api.twitter.com/1.1/statuses/user_timeline.json" #タイムライン取得エンドポイント
         until, since = uf.get_until_and_since()
-        for media in self.news_media:
-          params ={'count' : self.n_news_tweet, 'id' : self.news_media, 'since':since} #取得数
+        for media in news_media:
+          params ={'count' : self.n_news_tweet, 'id' : news_media, 'since':since} #取得数
           res = twitter.get(url, params=params)
           timelines = json.loads(res.text)
           text = ''
