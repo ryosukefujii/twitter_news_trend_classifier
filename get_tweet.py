@@ -63,7 +63,7 @@ class GetTweetFromNews:
         url = "https://api.twitter.com/1.1/statuses/user_timeline.json" #タイムライン取得エンドポイント
         until, since = uf.get_until_and_since()
         for media in self.news_media:
-          params ={'count' : self.n_news_tweet, 'id' : media, 'since':since} #取得数
+          params ={'count' : self.n_news_tweet, 'id' : self.news_media, 'since':since} #取得数
           res = twitter.get(url, params=params)
           timelines = json.loads(res.text)
           text = ''
