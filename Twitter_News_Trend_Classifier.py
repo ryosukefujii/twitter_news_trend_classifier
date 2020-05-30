@@ -91,14 +91,15 @@ trend_tweets = GetTweetFromTrend(n_trends)
 trends = trend_tweets.get_trends()
 trend_text_list = trend_tweets.get_text_list(n_tweets)
 news_tweets = GetTweetFromNews(news_media, n_news_tweet)
-news_text_list = news_tweets.get_text_list()
+news_text = news_tweets.get_text_list()
 
-for i , (trend, tweet, news) in enumerate(zip(trends, trend_text_list, news_text_list)):
-    sim = check_sim(tweet, news)
+for i , (trend, tweet) in enumerate(zip(trends, trend_text_list)):
+    sim = check_sim(tweet, news_text)
     judge = judge_trend(sim, threshold)
     search_links = ggl.check_links(trend)
     top_news = ggl.check_top_news(search_links)
     print(i, trend, sim, judge, top_news)
+
 # print('----- 判定開始 -----')
 # data_list = ['key word', 'sim', 'pred', 'label', 'result']
 # df = pd.DataFrame(columns=data_list)
