@@ -44,7 +44,7 @@ def check_top_news(links):
         cnt += link.count(news_site)
       result_list.append(cnt)
     if sum(result_list) > 0:
-      result = 'Top News'
+      result = 1, 'Top News'
     else:
-      result = ''
+      result = 0, ''
     return result

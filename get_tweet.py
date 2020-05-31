@@ -2,14 +2,8 @@ import config # ツイッターAPIトークン取得
 import util_func as uf # 自作関数モジュール呼び出し
 import tweepy
 import numpy as np
-import pandas as pd
-pd.set_option("display.max_columns", 100)
-pd.set_option('display.max_rows', 5000)
-pd.set_option('display.unicode.east_asian_width', True)
-from IPython.display import display
 from requests_oauthlib import OAuth1Session
 import json
-from gensim.models import KeyedVectors
 
 consumer_key = config.consumer_key
 consumer_secret = config.consumer_secret
