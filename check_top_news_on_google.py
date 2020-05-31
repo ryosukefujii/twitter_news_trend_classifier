@@ -15,6 +15,7 @@ news_sites = [
                 'mainichi.jp', # 毎日新聞
                 'nikkei.com', # 日経新聞
                 'chunichi.co.jp' # 中日新聞
+                'biz-journal.jp' # Business Journal
                ]
 def check_links(q):
     # google search
