@@ -56,4 +56,6 @@ $ pip install emoji
 $ pip install tensorflow_hub
 $ pip install tensorflow_text
 $ pip install requests_oauthlib
+$ pip install tweepy
+$ pip install beautifulsoup4
 ```
