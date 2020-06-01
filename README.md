@@ -53,6 +53,7 @@ access_token_secret = 'XXXXXXXXXX'
 $ pip install mecab-python3
 $ pip install oseti
 $ pip install emoji
+$ pip install tensorflow_hub
 $ pip install tensorflow_text
 $ pip install requests_oauthlib
 ```
