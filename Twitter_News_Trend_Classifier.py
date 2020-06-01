@@ -104,6 +104,7 @@ news_tweets = GetTweetFromNews(n_news_tweet)
 news_text = news_tweets.get_text_list()
 
 data_list = ['キーワード', '類似度', '予想', 'トップニュース', '正解']
+# data_list = ['key word', 'sim', 'pred', 'label', 'result']
 df = pd.DataFrame(columns=data_list)
 
 for i , (trend, tweet) in enumerate(zip(trends, trend_text_list)):
@@ -118,19 +119,5 @@ for i , (trend, tweet) in enumerate(zip(trends, trend_text_list)):
 
 from tabulate import tabulate
 print(tabulate(df, tablefmt="grid"))
-# print('----- 判定開始 -----')
-# data_list = ['key word', 'sim', 'pred', 'label', 'result']
-# df = pd.DataFrame(columns=data_list)
-# trend_list = get_trends(n_trends=n_trends, id=23424856) # トレンドリスト取得
-# news_text = check_news_tweet(news_media, news_cnt) # ニュースメディアからツイート取得
-# for i, q in enumerate(trend_list):
-#   tweet_text = get_text_from_tweets(q, items=n_tweets) # 各トレンドのツイートをitems数取得して結合
-#   result = check_sim(tweet_text, news_text) # 各トレンドツイートとニュースメディアのツイートの類似度を算出
-#   pred = np.where(result > threshold, 1, 0)
-#   print(q)
-#   label = int(input())
-#   df.loc[i] = i, q, result, pred, label, int(pred==label)
-
-
-# print((df.result == 1).sum()/df.shape[0], '%')
-# display(df)
+accuracy = (df['正解'] == 1).sum()/df.shape[0]
+print(accuracy*100, '%')
