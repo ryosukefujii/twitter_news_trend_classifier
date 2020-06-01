@@ -44,6 +44,9 @@ access_token = 'XXXXXXXXXX'
 access_token_secret = 'XXXXXXXXXX'
 ```
 
++ **Twitter_News_Trend_Classifier.py**を実行する
+
+
 ### 【Requirement】
 必要なツール、ライブラリ
 ```
