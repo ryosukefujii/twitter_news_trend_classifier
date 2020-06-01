@@ -10,6 +10,7 @@ consumer_secret = config.consumer_secret
 access_token = config.access_token
 access_token_secret = config.access_token_secret
 twitter = OAuth1Session(consumer_key, consumer_secret, access_token, access_token_secret)
+
 # tweepy
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -34,7 +35,7 @@ class GetTweetFromTrend:
         trend_list =  trend_list[:self.n_trends]
         return trend_list
 
-
+# twitter 各トレンドのツイートを結合し、リスト化
     def get_text_list(self, n_tweets=30):
         trend_list = self.get_trends()
         trend_text_list = []
@@ -76,10 +77,3 @@ class GetTweetFromNews:
             text += ' '
         text = uf.preprocess_text(text)
         return text
-
-
-# # トレンド取得
-#   self.trend_list = self.get_trends(self.n_trends, self.id)
-#   self.trend_tweet_list = []
-#   for i, q in enumerate(trend_list):
-#       self.trend_tweet_list.append(get_text_from_tweets(q, items=n_tweets)) # 各トレンドのツイートをitems数取得して結合
