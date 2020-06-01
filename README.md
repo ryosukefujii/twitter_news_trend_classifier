@@ -35,7 +35,7 @@
 
 ### 【利用するには】
 + config.py ファイルを作成しツイッターAPIトークンを設定する。
-+ **twitter_news_trend_classifierフォルダ** 直下に配置する。
++ config.py ファイルを **twitter_news_trend_classifierフォルダ** 直下に配置する。
 
 ```
 consumer_key = 'XXXXXXXXXX'
@@ -44,7 +44,7 @@ access_token = 'XXXXXXXXXX'
 access_token_secret = 'XXXXXXXXXX'
 ```
 
-+ **Twitter_News_Trend_Classifier.py**を実行する
++ **Twitter_News_Trend_Classifier.pyファイル**を実行する
 
 
 ### 【Requirement】
